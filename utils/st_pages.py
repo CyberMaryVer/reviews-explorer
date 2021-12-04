@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import os
 from utils.st_map import st_map
@@ -11,6 +12,9 @@ def show_data():
         st.info("TODO")
         st.form_submit_button("Применить")
 
+    st.title("Iframe example")
+    show_iframe("https://datalens.yandex/1q1jjz2fbxvsu?")
+
     st.title("Map example")
     st_map(cities=None, lat_key="latitude", lon_key="longitude", info_key="title")
     st_html("map.html", width=800)
@@ -21,6 +25,10 @@ def show_data():
     st.text(df_path)
     df = load_df(df_path)
     st.dataframe(df, width=800)
+
+
+def show_iframe(url, width=800, height=600, scrolling=False):
+    components.iframe(url, width=width, height=height, scrolling=scrolling)
 
 
 def show_info():
