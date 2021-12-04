@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-
+import os
 from utils.st_map import st_map
 from utils.st_utils import st_html, st_img, create_qrcode, calculate_distance
 
@@ -11,8 +11,16 @@ def show_data():
         st.info("TODO")
         st.form_submit_button("Применить")
 
+    st.title("Map example")
     st_map(cities=None, lat_key="latitude", lon_key="longitude", info_key="title")
     st_html("map.html", width=800)
+
+    st.title("Dataframe example")
+    df_path = st.selectbox("Select file", os.listdir("data"))
+    df_path = os.path.join("data", df_path)
+    st.text(df_path)
+    df = load_df(df_path)
+    st.dataframe(df, width=800)
 
 
 def show_info():
@@ -20,9 +28,9 @@ def show_info():
     st.balloons()
     col1, col2 = st.columns([3, 2])
     with col1:
-        st.info("@resivalex")
+        st.info("resivalex@gmail.com")
         st.info("@ABTOHOMHOCTb")
-        st.info("@cybermary")
+        st.info("maria.s.startseva@gmail.com")
     with col2:
         # st_img("./data/tg.png")
         st.markdown(f""":package: [Иван Решетников](https://t.me/resivalex)""",
