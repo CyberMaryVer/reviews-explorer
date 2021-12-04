@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+leafmap
+xyzservices
+streamlit_authenticator
+plotly
+bs4
+qrcode
+geopy
