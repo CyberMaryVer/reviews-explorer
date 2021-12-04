@@ -1,19 +1,18 @@
 import streamlit as st
 import pandas as pd
 
-from st_map import st_map
-from st_utils import st_html, st_img, create_qrcode, calculate_distance
-from st_yandex import yandex_api
+from utils.st_map import st_map
+from utils.st_utils import st_html, st_img, create_qrcode, calculate_distance
 
 
 def show_data():
-    # parcel_form = st.sidebar.form("Заполните анкету:")
 
     with st.sidebar.form("Настройки отображения:"):
         st.info("TODO")
         st.form_submit_button("Применить")
-        st_map(cities=None, lat_key="latitude", lon_key="longitude", info_key="title")
-        st_html("map.html", width=1000)
+
+    st_map(cities=None, lat_key="latitude", lon_key="longitude", info_key="title")
+    st_html("map.html", width=800)
 
 
 def show_info():

@@ -11,7 +11,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 
-def st_title(title_text, color=(226, 26, 26)):
+def st_title(title_text, color=(26, 26, 226)):
     st.markdown(f"""<p style="background: rgb{color}; padding: 1.05em 1.05em; margin: 0px 0.0em; line-height: '
                     f'1; border-radius: 0.25em;"><b>{title_text.upper()}</b></p>""", unsafe_allow_html=True)
     st.markdown("----")
