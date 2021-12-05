@@ -40,14 +40,20 @@ def st_img(img_path, sidebar=False, width=600):
         st.image(img_to_show, width=width)
 
 
-def st_freqs(uni_freqs, bi_freqs, tri_freqs, num=2):
+def st_freqs(uni_freqs, bi_freqs, tri_freqs, num=2, bi_num=None, tri_num=None):
+    if bi_num is None:
+        bi_num = num
+    if tri_num is None:
+        tri_num = num
     uni_freqs = reversed(sorted(uni_freqs, key=lambda x: x[1]))
     bi_freqs = reversed(sorted(bi_freqs, key=lambda x: x[1]))
     tri_freqs = reversed(sorted(tri_freqs, key=lambda x: x[1]))
-    for idx, grams in enumerate(zip(uni_freqs, bi_freqs, tri_freqs)):
-        st.write(f" - \t{grams[2]} \t\t\t - \t{grams[1]} ")
-        if idx == num:
-            break
+    st.markdown('#### Биграммы')
+    for idx, (bigram, count) in zip(range(bi_num), bi_freqs):
+        st.markdown(' '.join(bigram) + f' - {count}')
+    st.markdown('#### Триграммы')
+    for idx, (trigram, count) in zip(range(tri_num), tri_freqs):
+        st.markdown(' '.join(trigram) + f' - {count}')
 
 
 def _generate_base64_str_for_gif(gif_bytes=None, gif_paths=None):

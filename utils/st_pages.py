@@ -117,7 +117,7 @@ def show_nlp():
         st.markdown(f"### Анализ триграм и биграм")
 
         if is_done:
-            st_freqs(ugram[df_file], bgram[df_file], tgram[df_file], num=4)
+            st_freqs(ugram[df_file], bgram[df_file], tgram[df_file], bi_num=7, tri_num=4)
         # st.dataframe(df, width=1200, height=600)
 
 

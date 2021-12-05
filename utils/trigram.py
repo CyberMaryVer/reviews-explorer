@@ -11,7 +11,7 @@ def get_corpus(df, fname):
     lines = df.loc[df.file == fname].Link.values
     tokens = []
     exceptions_count = 0
-    tokenizer = nltk.RegexpTokenizer('\w+|\$[\d\.]+|\S+')
+    tokenizer = nltk.RegexpTokenizer('\w+')
     for line in lines:
         try:
             tokens += tokenizer.tokenize(line)
