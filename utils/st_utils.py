@@ -54,12 +54,15 @@ def st_freqs(uni_freqs, bi_freqs, tri_freqs, num=2, bi_num=None, tri_num=None):
     bi_freqs = reversed(sorted(bi_freqs, key=lambda x: x[1]))
     tri_freqs = reversed(sorted(tri_freqs, key=lambda x: x[1]))
     st.markdown('#### Биграммы')
+    bi_recs = []
     for idx, (bigram, count) in zip(range(bi_num), bi_freqs):
-        st.markdown(' '.join(bigram) + f' - {count}')
+        bi_recs.append((' '.join(bigram), count))
+    st.dataframe(pd.DataFrame(bi_recs, columns=['биграмма', 'встречаемость']))
     st.markdown('#### Триграммы')
+    tri_recs = []
     for idx, (trigram, count) in zip(range(tri_num), tri_freqs):
-        st.markdown(' '.join(trigram) + f' - {count}')
-
+        tri_recs.append((' '.join(trigram), count))
+    st.dataframe(pd.DataFrame(tri_recs, columns=['биграмма', 'встречаемость']))
 
 def _generate_base64_str_for_gif(gif_bytes=None, gif_paths=None):
     if gif_paths is None and gif_bytes is None:
