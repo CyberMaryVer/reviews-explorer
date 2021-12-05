@@ -100,7 +100,8 @@ def show_nlp():
                              animation_frame="year", animation_group="review_rating",  # real-time debugging - delete this line if aomething is going wrong
                              width=1200,
                              opacity=.5)
-        st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(width=1100,height=900)
+        st.plotly_chart(fig, use_container_width=True, width=1100, height=900)
 
         col1, col2 = st.columns(2)
         with col1:
