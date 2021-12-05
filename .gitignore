@@ -3,3 +3,6 @@ venv/
 venv2/
 __pycache__
 parsers/*.py
+docker-compose.yml
+Dockerfile
+run_env.sh
