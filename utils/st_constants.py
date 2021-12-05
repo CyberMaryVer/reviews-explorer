@@ -15,3 +15,24 @@ IMAGES = {
     'kamchatka-khalaktyrsky.csv': 'beach.jfif',
     'kamchatka-avachinsky-bay.csv': 'avachinskiy_zaliv.jfif'
 }
+
+SINGLE_FILE_DATA = {
+    'Полуостров Камчатка': {
+        'image': 'kamchatka.jpeg'
+    },
+    'Авачинская Бухта': {
+        'image': 'avachinskiy_zaliv.jfif'
+    },
+    'Авачинский вулкан': {
+        'image': 'avachinskiy.jfif'
+    },
+    'Долина гейзеров': {
+        'image': 'geizers.jfif'
+    },
+    'Халактырский пляж': {
+        'image': 'beach.jfif'
+    },
+    'Вулкан Мутновский': {
+        'image': 'mutnovskiy.jfif'
+    }
+}

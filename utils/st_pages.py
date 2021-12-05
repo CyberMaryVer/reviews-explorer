@@ -114,33 +114,33 @@ def show_nlp():
     elif choice == "по достопримечательностям":
         st.title("ОТЗЫВЫ ПО ДОСТОПРИМЕЧАТЕЛЬНОСТЯМ")
 
+        all_reviews_df = pd.read_csv('./data/kamchatka-translated-reviews.csv')
         # weird bug on server, so:
         try:
-            ugram, bgram, tgram = bigram_trigram()
+            ugram, bgram, tgram = bigram_trigram(all_reviews_df)
             is_done = True
         except Exception as e:
             print(e)
             print(e.__traceback__)
             is_done = False
 
-        files = [f for f in os.listdir("data") if "main" not in f and "reviews" not in f]
-        sight_name = st.selectbox("Выберите достопримечательность", [SIGHTS[f] for f in files])
-        df_file = SIGHTS_INV[sight_name]
-        df_path = os.path.join("data", df_file)
+        sight_names = sorted(all_reviews_df['sight'].unique())
+        # st.dataframe(all_reviews_df)
+        sight_name = st.selectbox("Выберите достопримечательность", sight_names)
 
-        st.markdown(f"### {SIGHTS[df_file]}")
-        df = load_df(df_path)
-        df = df.Link.reset_index()
-        df.columns = ["Номер отзыва", "Текст отзыва"]
+        st.markdown(f"### {sight_name}")
+        sight_df = all_reviews_df[all_reviews_df['sight'] == sight_name]
+        df = pd.DataFrame({'0': list(range(1, len(sight_df) + 1)), '1': sight_df['country_rus'], '2': sight_df['review_text_rus']})
+        df.columns = ["Номер отзыва", "Страна", "Текст отзыва"]
 
         fig = go.Figure(data=[go.Table(
-            columnwidth=[10, 400],
+            columnwidth=[10, 40, 360],
             header=dict(values=list(df.columns),
                         fill_color='black',
                         align='left',
                         height=42,
                         font=dict(color='darkslategray', size=16)),
-            cells=dict(values=[df["Номер отзыва"], df["Текст отзыва"]],
+            cells=dict(values=[df["Номер отзыва"], df["Страна"], df["Текст отзыва"]],
                        fill_color='black',
                        align='left'))
         ])
@@ -148,7 +148,7 @@ def show_nlp():
         col1, col2 = st.columns((2, 2))
 
         with col1:
-            image_path = os.path.join("images", IMAGES[df_file])
+            image_path = os.path.join("images", SINGLE_FILE_DATA[sight_name]['image'])
             st_img(image_path)
 
         with col2:
@@ -157,8 +157,10 @@ def show_nlp():
         st.markdown(f"### Анализ триграм и биграм")
 
         if is_done:
-            st_freqs(ugram[df_file], bgram[df_file], tgram[df_file], bi_num=7, tri_num=4)
+            st_freqs(ugram[sight_name], bgram[sight_name], tgram[sight_name], bi_num=8, tri_num=5)
         # st.dataframe(df, width=1200, height=600)
+        st.markdown(f"### Полные данные по отзывам")
+        st.dataframe(sight_df)
 
 
 def show_info():
