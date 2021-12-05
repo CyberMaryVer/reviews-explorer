@@ -64,7 +64,15 @@ def show_nlp():
         st.dataframe(data.review_rating.value_counts())
 
     st.title("ОТЗЫВЫ ПО ДОСТОПРИМЕЧАТЕЛЬНОСТЯМ")
-    ugram, bgram, tgram = bigram_trigram()
+
+    # weird bug on server, so:
+    try:
+        ugram, bgram, tgram = bigram_trigram()
+        is_done = True
+    except Exception as e:
+        print(e)
+        is_done = False
+
     files = [f for f in os.listdir("data") if "main" not in f and "reviews" not in f]
     df_file = st.selectbox("Выберите файл с отзывами", files)
     df_path = os.path.join("data", df_file)
@@ -96,7 +104,9 @@ def show_nlp():
         st.plotly_chart(fig, use_container_width=True)
 
     st.markdown(f"### Анализ триграм и биграм")
-    st_freqs(ugram[df_file], bgram[df_file], tgram[df_file], num=4)
+
+    if is_done:
+        st_freqs(ugram[df_file], bgram[df_file], tgram[df_file], num=4)
     # st.dataframe(df, width=1200, height=600)
 
 
