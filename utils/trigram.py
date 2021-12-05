@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import streamlit as st
 import nltk
@@ -7,8 +6,9 @@ import nltk
 nltk.download('punkt')
 
 
-def get_corpus(df, fname):
-    lines = df.loc[df.file == fname].Link.values
+def get_corpus(df, sight_name):
+    sight_df = df[df['sight'] == sight_name]
+    lines = sight_df['review_text_rus'].tolist()
     tokens = []
     exceptions_count = 0
     tokenizer = nltk.RegexpTokenizer('\w+')
@@ -48,26 +48,18 @@ def get_tri_freqs(corpus):
 
 
 @st.cache
-def bigram_trigram():
-    filenames = [f for f in os.listdir("./data") if "main" not in f]
-    files = [os.path.join("data", f) for f in os.listdir("./data") if "main" not in f]
-    df = pd.DataFrame()
+def bigram_trigram(reviews_df):
+    sight_names = reviews_df['sight'].unique()
 
-    for f, fname in zip(files, filenames):
-        print(f)
-        dff = pd.read_csv(f)
-        dff["file"] = fname
-        df = pd.concat((df, dff))
+    uni_freqs = {f: "" for f in sight_names}
+    bi_freqs = {f: "" for f in sight_names}
+    tri_freqs = {f: "" for f in sight_names}
 
-    uni_freqs = {f: "" for f in filenames}
-    bi_freqs = {f: "" for f in filenames}
-    tri_freqs = {f: "" for f in filenames}
+    for sight_name in sight_names:
+        corpus = get_corpus(reviews_df, sight_name)
 
-    for f in filenames:
-        corpus = get_corpus(df, f)
-
-        uni_freqs[f] = get_uni_freqs(corpus)
-        bi_freqs[f] = get_bi_freqs(corpus)
-        tri_freqs[f] = get_tri_freqs(corpus)
+        uni_freqs[sight_name] = get_uni_freqs(corpus)
+        bi_freqs[sight_name] = get_bi_freqs(corpus)
+        tri_freqs[sight_name] = get_tri_freqs(corpus)
 
     return uni_freqs, bi_freqs, tri_freqs
