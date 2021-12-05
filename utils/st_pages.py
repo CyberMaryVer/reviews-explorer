@@ -35,79 +35,88 @@ def show_data():
 
 
 def show_nlp():
+    with st.sidebar:
+        choice = st.radio("Анализ отзывов", ("ключевые слова", "по странам", "по достопримечательностям"))
+
     with st.sidebar.form("Настройки отображения:"):
         st.radio("Скачать отчет", ("pdf", "html", "txt"))
         st.form_submit_button("Скачать отчет")
 
-    # with st.sidebar:
-    #     choice = st.radio("NLP ANALYSIS", ("sentiment", "keywords", "ner"))
+    if choice == "ключевые слова":
+        st.title("КЛЮЧЕВЫЕ СЛОВА")
+        st.markdown(f"### в положительных отзывах (8-10)")
+        st_img("./images/good.png")
+        st.markdown(f"### в негативных отзывах (менее 6)")
+        st_img("./images/bad.png")
 
-    st.title("ОТЗЫВЫ ПО СТРАНАМ")
-    st.markdown("По данным Tripadvisor")
-    data = pd.read_csv("./data/kamchatka-main.csv")
+    elif choice == "по странам":
+        st.title("ОТЗЫВЫ ПО СТРАНАМ")
+        st.markdown("По данным Tripadvisor")
+        data = pd.read_csv("./data/kamchatka-main.csv")
 
-    fig = px.scatter_geo(data, locations="iso",
-                         color="review_rating",  # which column to use to set the color of markers
-                         hover_name="hover",  # column added to hover information
-                         size="review_rating",  # size of markers
-                         projection="natural earth",
-                         width=1200,
-                         opacity=.5)
-    st.plotly_chart(fig, use_container_width=True)
-
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("### Средняя оценка и количество отзывов")
-        st.dataframe(data.groupby("user_country")["review_rating", "num_review"].mean())
-    with col2:
-        st.markdown("### Количество отзывов с данной оценкой")
-        st.dataframe(data.review_rating.value_counts())
-
-    st.title("ОТЗЫВЫ ПО ДОСТОПРИМЕЧАТЕЛЬНОСТЯМ")
-
-    # weird bug on server, so:
-    try:
-        ugram, bgram, tgram = bigram_trigram()
-        is_done = True
-    except Exception as e:
-        print(e)
-        is_done = False
-
-    files = [f for f in os.listdir("data") if "main" not in f and "reviews" not in f]
-    df_file = st.selectbox("Выберите файл с отзывами", files)
-    df_path = os.path.join("data", df_file)
-
-    st.markdown(f"### {SIGHTS[df_file]}")
-    df = load_df(df_path)
-    # df = df.Link.reset_index()
-    df.columns = ["Номер отзыва", "Текст отзыва"]
-
-    fig = go.Figure(data=[go.Table(
-        columnwidth=[10, 400],
-        header=dict(values=list(df.columns),
-                    fill_color='black',
-                    align='left',
-                    height=42,
-                    font=dict(color='darkslategray', size=16)),
-        cells=dict(values=[df["Номер отзыва"], df["Текст отзыва"]],
-                   fill_color='black',
-                   align='left'))
-    ])
-
-    col1, col2 = st.columns((2, 2))
-
-    with col1:
-        image_path = os.path.join("images", IMAGES[df_file])
-        st_img(image_path)
-
-    with col2:
+        fig = px.scatter_geo(data, locations="iso",
+                             color="review_rating",  # which column to use to set the color of markers
+                             hover_name="hover",  # column added to hover information
+                             size="review_rating",  # size of markers
+                             projection="natural earth",
+                             width=1200,
+                             opacity=.5)
         st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown(f"### Анализ триграм и биграм")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("### Средняя оценка и количество отзывов")
+            st.dataframe(data.groupby("user_country")["review_rating", "num_review"].mean())
+        with col2:
+            st.markdown("### Количество отзывов с данной оценкой")
+            st.dataframe(data.review_rating.value_counts())
 
-    if is_done:
-        st_freqs(ugram[df_file], bgram[df_file], tgram[df_file], num=4)
-    # st.dataframe(df, width=1200, height=600)
+    elif choice == "по достопримечательностям":
+        st.title("ОТЗЫВЫ ПО ДОСТОПРИМЕЧАТЕЛЬНОСТЯМ")
+
+        # weird bug on server, so:
+        try:
+            ugram, bgram, tgram = bigram_trigram()
+            is_done = True
+        except Exception as e:
+            print(e)
+            is_done = False
+
+        files = [f for f in os.listdir("data") if "main" not in f and "reviews" not in f]
+        df_file = st.selectbox("Выберите файл с отзывами", files)
+        df_path = os.path.join("data", df_file)
+
+        st.markdown(f"### {SIGHTS[df_file]}")
+        df = load_df(df_path)
+        df = df.Link.reset_index()
+        df.columns = ["Номер отзыва", "Текст отзыва"]
+
+        fig = go.Figure(data=[go.Table(
+            columnwidth=[10, 400],
+            header=dict(values=list(df.columns),
+                        fill_color='black',
+                        align='left',
+                        height=42,
+                        font=dict(color='darkslategray', size=16)),
+            cells=dict(values=[df["Номер отзыва"], df["Текст отзыва"]],
+                       fill_color='black',
+                       align='left'))
+        ])
+
+        col1, col2 = st.columns((2, 2))
+
+        with col1:
+            image_path = os.path.join("images", IMAGES[df_file])
+            st_img(image_path)
+
+        with col2:
+            st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown(f"### Анализ триграм и биграм")
+
+        if is_done:
+            st_freqs(ugram[df_file], bgram[df_file], tgram[df_file], num=4)
+        # st.dataframe(df, width=1200, height=600)
 
 
 def show_info():

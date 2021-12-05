@@ -7,7 +7,7 @@ from d2l import mxnet as d2l
 npx.set_np()
 
 
-# @st.cache
+@st.cache
 def bigram_trigram():
     filenames = [f for f in os.listdir("./data") if "main" not in f]
     files = [os.path.join("data", f) for f in os.listdir("./data") if "main" not in f]
