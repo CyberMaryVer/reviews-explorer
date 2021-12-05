@@ -5,8 +5,8 @@ from utils.st_pages import *
 # set page settings
 st.set_page_config(page_title="web-app", page_icon=":bar_chart:", layout="wide",
                    menu_items={
-                       'Get Help': 'https://www.google.com',
-                       'About': "### Анализ соцсетей\n----\nПриложение для анализа отзывов"
+                       'Get Help': 'https://www.rferl.org/a/kamchatka-volcanoes-ballistic-missile/31358301.html',
+                       'About': "### Undiscovered\n----\nПриложение для анализа отзывов"
                    })
 
 
