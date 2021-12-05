@@ -1,26 +1,27 @@
 import streamlit as st
+import pandas as pd
 import base64
 from PIL import Image
 import streamlit.components.v1 as components
 import json
-import requests
-# from bs4 import BeautifulSoup
 import qrcode
 import geopy.distance as gdist
-import smtplib
-from email.mime.text import MIMEText
 
 
-def st_title(title_text, color=(26, 26, 226)):
-    st.markdown(f"""<p style="background: rgb{color}; padding: 1.05em 1.05em; margin: 0px 0.0em; line-height: '
+def st_title(title_text, color=(38, 39, 48)):
+    st.markdown(f"""<p style="background: rgb{color}; padding: 1.55em 1.55em; margin: 0px 0.0em; line-height: '
                     f'1; border-radius: 0.25em;"><b>{title_text.upper()}</b></p>""", unsafe_allow_html=True)
     st.markdown("----")
 
 
-def st_html(html_path, width=600, height=400):
+def st_html(html_path, width=600, height=400, scrolling=False):
     html = open(html_path, 'r', encoding='utf-8')
     source_code = html.read()
-    components.html(source_code, width, height)
+    components.html(source_code, width, height, scrolling=scrolling)
+
+
+def st_iframe(url, width=800, height=400, scrolling=False):
+    components.iframe(url, width=width, height=height, scrolling=scrolling)
 
 
 def st_gif(gif_path, sidebar=False):
@@ -31,12 +32,19 @@ def st_gif(gif_path, sidebar=False):
         st.markdown(code, unsafe_allow_html=True)
 
 
-def st_img(img_path, sidebar=False):
+def st_img(img_path, sidebar=False, width=600):
     img_to_show = Image.open(img_path)
     if sidebar:
-        st.sidebar.image(img_to_show)
+        st.sidebar.image(img_to_show, width=width)
     else:
-        st.image(img_to_show)
+        st.image(img_to_show, width=width)
+
+
+def st_freqs(uni_freqs, bi_freqs, tri_freqs, num=2):
+    for idx, grams in enumerate(zip(uni_freqs, bi_freqs, tri_freqs)):
+        st.write(f" - \t{grams[2]} \t\t\t - \t{grams[1]} ")
+        if idx == num:
+            break
 
 
 def _generate_base64_str_for_gif(gif_bytes=None, gif_paths=None):
@@ -92,6 +100,12 @@ def color_text(text, color=(226, 26, 26)):
 
 def calculate_distance(coords_1, coords_2):
     return gdist.distance(coords_1, coords_2).km
+
+
+@st.experimental_memo
+def load_df(df_path):
+    df = pd.read_csv(df_path, index_col=0)
+    return df
 
 
 if __name__ == "__main__":

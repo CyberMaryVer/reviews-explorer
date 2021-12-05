@@ -8,3 +8,5 @@ plotly
 bs4
 qrcode
 geopy
+mxnet
+d2l
