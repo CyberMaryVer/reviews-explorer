@@ -40,6 +40,11 @@ def st_img(img_path, sidebar=False, width=600):
         st.image(img_to_show, width=width)
 
 
+def st_imgs(img_paths, width=600):
+    imgs_to_show = [Image.open(img_path) for img_path in img_paths]
+    st.image(imgs_to_show, width=width)
+
+
 def st_freqs(uni_freqs, bi_freqs, tri_freqs, num=2, bi_num=None, tri_num=None):
     if bi_num is None:
         bi_num = num

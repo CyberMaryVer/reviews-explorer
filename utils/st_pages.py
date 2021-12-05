@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 import os
 
-from utils.st_utils import st_html, st_iframe, load_df, st_img, st_freqs
+from utils.st_utils import st_html, st_iframe, load_df, st_img, st_freqs, st_imgs
 from utils.st_constants import *
 from utils.trigram import bigram_trigram
 
@@ -48,6 +48,44 @@ def show_nlp():
         st_img("./images/good.png")
         st.markdown(f"### в негативных отзывах (менее 6)")
         st_img("./images/bad.png")
+
+        st.title('ПО СТРАНАМ (положительные и негативные)')
+
+        st.markdown('## Россия')
+        st_imgs(["./images/country-top-words/russia-pos.png", "./images/country-top-words/russia-neg.png"])
+
+        st.markdown('## Великобритания')
+        st_imgs(["./images/country-top-words/united-kingdom-pos.png", "./images/country-top-words/united-kingdom-neg.png"])
+
+        st.markdown('## Китай')
+        st_img("./images/country-top-words/china-pos.png")
+
+        st.markdown('## Австралия')
+        st_img("./images/country-top-words/australia-pos.png")
+
+        st.markdown('## Япония')
+        st_img("./images/country-top-words/japan-pos.png")
+
+        st.markdown('## Соединённые Штаты Америки')
+        st_img("./images/country-top-words/united-states-pos.png")
+
+        st.markdown('## Германия')
+        st_img("./images/country-top-words/germany-pos.png")
+
+        st.markdown('## Индия')
+        st_img("./images/country-top-words/india-pos.png")
+
+        st.markdown('## Швейцария')
+        st_img("./images/country-top-words/switzerland-pos.png")
+
+        st.markdown('## Италия')
+        st_img("./images/country-top-words/italy-pos.png")
+
+        st.markdown('## Израиль')
+        st_img("./images/country-top-words/israel-pos.png")
+
+        st.markdown('## Франция')
+        st_img("./images/country-top-words/france-pos.png")
 
     elif choice == "по странам":
         st.title("ОТЗЫВЫ ПО СТРАНАМ")
