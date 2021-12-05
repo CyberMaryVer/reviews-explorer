@@ -62,7 +62,7 @@ def st_freqs(uni_freqs, bi_freqs, tri_freqs, num=2, bi_num=None, tri_num=None):
     tri_recs = []
     for idx, (trigram, count) in zip(range(tri_num), tri_freqs):
         tri_recs.append((' '.join(trigram), count))
-    st.dataframe(pd.DataFrame(tri_recs, columns=['биграмма', 'встречаемость']))
+    st.dataframe(pd.DataFrame(tri_recs, columns=['триграмма', 'встречаемость']))
 
 def _generate_base64_str_for_gif(gif_bytes=None, gif_paths=None):
     if gif_paths is None and gif_bytes is None:
