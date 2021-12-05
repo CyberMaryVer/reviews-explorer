@@ -90,13 +90,14 @@ def show_nlp():
     elif choice == "по странам":
         st.title("ОТЗЫВЫ ПО СТРАНАМ")
         st.markdown("По данным Tripadvisor")
-        data = pd.read_csv("./data/kamchatka-main.csv")
+        data = pd.read_csv("./data/kamchatka_main2.csv")
 
         fig = px.scatter_geo(data, locations="iso",
                              color="review_rating",  # which column to use to set the color of markers
                              hover_name="hover",  # column added to hover information
                              size="review_rating",  # size of markers
                              projection="natural earth",
+                             animation_frame="year", animation_group="review_rating",  # real-time debugging - delete this line if aomething is going wrong
                              width=1200,
                              opacity=.5)
         st.plotly_chart(fig, use_container_width=True)
