@@ -41,6 +41,9 @@ def st_img(img_path, sidebar=False, width=600):
 
 
 def st_freqs(uni_freqs, bi_freqs, tri_freqs, num=2):
+    uni_freqs = reversed(sorted(uni_freqs, key=lambda x: x[1]))
+    bi_freqs = reversed(sorted(bi_freqs, key=lambda x: x[1]))
+    tri_freqs = reversed(sorted(tri_freqs, key=lambda x: x[1]))
     for idx, grams in enumerate(zip(uni_freqs, bi_freqs, tri_freqs)):
         st.write(f" - \t{grams[2]} \t\t\t - \t{grams[1]} ")
         if idx == num:

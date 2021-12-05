@@ -11,14 +11,15 @@ def get_corpus(df, fname):
     lines = df.loc[df.file == fname].Link.values
     tokens = []
     exceptions_count = 0
+    tokenizer = nltk.RegexpTokenizer('\w+|\$[\d\.]+|\S+')
     for line in lines:
         try:
-            tokens += nltk.word_tokenize(line)
+            tokens += tokenizer.tokenize(line)
         except Exception as exc:
             exceptions_count += 1
             if exceptions_count == 1:
                 print(exc)
-    return tokens
+    return [token.lower() for token in tokens]
 
 
 def get_uni_freqs(corpus):
