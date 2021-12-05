@@ -84,7 +84,8 @@ def show_nlp():
             is_done = False
 
         files = [f for f in os.listdir("data") if "main" not in f and "reviews" not in f]
-        df_file = st.selectbox("Выберите файл с отзывами", files)
+        sight_name = st.selectbox("Выберите достопримечательность", [SIGHTS[f] for f in files])
+        df_file = SIGHTS_INV[sight_name]
         df_path = os.path.join("data", df_file)
 
         st.markdown(f"### {SIGHTS[df_file]}")

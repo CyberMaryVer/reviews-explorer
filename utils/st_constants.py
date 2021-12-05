@@ -6,6 +6,8 @@ SIGHTS = {
     'kamchatka-avachinsky-bay.csv': 'Авачинский залив'
 }
 
+SIGHTS_INV = {value: key for key, value in SIGHTS.items()}
+
 IMAGES = {
     'kamchatka-mutnovskiy.csv': 'mutnovskiy.jfif',
     'kamchatka-avachinsky-volcano.csv': 'avachinskiy.jfif',
