@@ -9,7 +9,7 @@ SIGHTS = {
 IMAGES = {
     'kamchatka-mutnovskiy.csv': 'mutnovskiy.jfif',
     'kamchatka-avachinsky-volcano.csv': 'avachinskiy.jfif',
-    'kamchatka-geyzers.csv': 'geyzers.jfif',
+    'kamchatka-geyzers.csv': 'geizers.jfif',
     'kamchatka-khalaktyrsky.csv': 'beach.jfif',
     'kamchatka-avachinsky-bay.csv': 'avachinskiy_zaliv.jfif'
 }

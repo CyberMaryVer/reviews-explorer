@@ -43,6 +43,7 @@ def show_nlp():
     #     choice = st.radio("NLP ANALYSIS", ("sentiment", "keywords", "ner"))
 
     st.title("ОТЗЫВЫ ПО СТРАНАМ")
+    st.markdown("По данным Tripadvisor")
     data = pd.read_csv("./data/kamchatka-main.csv")
 
     fig = px.scatter_geo(data, locations="iso",
@@ -64,7 +65,7 @@ def show_nlp():
 
     st.title("ОТЗЫВЫ ПО ДОСТОПРИМЕЧАТЕЛЬНОСТЯМ")
     ugram, bgram, tgram = bigram_trigram()
-    files = [f for f in os.listdir("data") if "main" not in f]
+    files = [f for f in os.listdir("data") if "main" not in f and "reviews" not in f]
     df_file = st.selectbox("Выберите файл с отзывами", files)
     df_path = os.path.join("data", df_file)
 
