@@ -80,6 +80,7 @@ def show_nlp():
             is_done = True
         except Exception as e:
             print(e)
+            print(e.__traceback__)
             is_done = False
 
         files = [f for f in os.listdir("data") if "main" not in f and "reviews" not in f]

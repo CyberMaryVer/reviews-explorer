@@ -8,5 +8,5 @@ plotly
 bs4
 qrcode
 geopy
-mxnet
+nltk
 d2l

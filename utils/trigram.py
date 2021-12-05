@@ -1,47 +1,49 @@
 import os
 import pandas as pd
 import streamlit as st
-import re
-# from mxnet import np, npx
-# from d2l import mxnet as d2l
+import nltk
 
-# npx.set_np()
+
+nltk.download('punkt')
 
 
 def get_corpus(df, fname):
-    tokens = re.split(r'\W+',
-    '''
-        Потрясающе! Совершенно необычное зрелище и год от года меняющееся. Можно ходить на этот вулкан каждый год и всегда будет интересно
-    ''')
-    tokens = [token for token in tokens if token != '']
+    lines = df.loc[df.file == fname].Link.values
+    tokens = []
+    exceptions_count = 0
+    for line in lines:
+        try:
+            tokens += nltk.word_tokenize(line)
+        except Exception as exc:
+            exceptions_count += 1
+            if exceptions_count == 1:
+                print(exc)
     return tokens
-
-    tokens = d2l.tokenize(df.loc[df.file == fname].Link.values)
-    return [token for line in tokens for token in line]
 
 
 def get_uni_freqs(corpus):
-    return corpus[10:15]
-
-    vocab = d2l.Vocab(corpus)
-    return vocab.token_freqs
+    fdist = nltk.FreqDist(corpus)
+    freqs = []
+    for k, v in fdist.items():
+        freqs.append((k, v))
+    return freqs
 
 
 def get_bi_freqs(corpus):
-    return [trigram for trigram in zip(corpus[5:10], corpus[6:])]
-
-    bigram_tokens = [pair for pair in zip(corpus[:-1], corpus[1:])]
-    bigram_vocab = d2l.Vocab(bigram_tokens)
-    return bigram_vocab.token_freqs
-
+    bgs = nltk.bigrams(corpus)
+    fdist = nltk.FreqDist(bgs)
+    freqs = []
+    for k, v in fdist.items():
+        freqs.append((k, v))
+    return freqs
 
 def get_tri_freqs(corpus):
-    return [trigram for trigram in zip(corpus[:5], corpus[1:], corpus[2:])]
-
-    trigram_tokens = [triple for triple in zip(
-        corpus[:-2], corpus[1:-1], corpus[2:])]
-    trigram_vocab = d2l.Vocab(trigram_tokens)
-    return trigram_vocab.token_freqs
+    tgs = nltk.trigrams(corpus)
+    fdist = nltk.FreqDist(tgs)
+    freqs = []
+    for k, v in fdist.items():
+        freqs.append((k, v))
+    return freqs
 
 
 @st.cache
